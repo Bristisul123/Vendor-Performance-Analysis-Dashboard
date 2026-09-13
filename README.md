@@ -185,7 +185,7 @@ The project combines purchasing, pricing, sales, vendor, and invoice information
 ### Example SQL Analysis
 
 ```sql
-SELECT
+SELECT 
     p.VendorNumber,
     p.VendorName,
     p.Brand,
@@ -196,10 +196,10 @@ SELECT
     SUM(p.Quantity) AS TotalPurchaseQuantity,
     SUM(p.Dollars) AS TotalPurchaseDollars
 FROM purchases p
-JOIN purchase_prices pp
+JOIN purchase_prices pp 
     ON p.Brand = pp.Brand
 WHERE p.PurchasePrice > 0
-GROUP BY
+GROUP BY 
     p.VendorNumber,
     p.VendorName,
     p.Brand,
@@ -207,58 +207,3 @@ GROUP BY
     p.PurchasePrice,
     pp.Volume,
     pp.Price;
-
-# 🧹 Data Cleaning & Transformation
-
-The data was cleaned and transformed before performing the final analysis.
-
-Major data preparation steps included:
-
-- Removing invalid or irrelevant records
-- Handling missing values
-- Filtering records with meaningful sales activity
-- Aggregating transactional data
-- Joining vendor, product, sales, and purchase information
-- Creating calculated business metrics
-- Preparing an analysis-ready dataset for Python and Power BI
-
----
-
-# 🐍 Python Exploratory Data Analysis
-
-Python was used to perform exploratory data analysis and identify trends, patterns, and relationships within the dataset.
-
-The analysis focused on **vendor performance, product performance, profitability, purchasing behavior, and sales trends**.
-
-### 📌 Python Libraries
-
-```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-#📈 Vendor Performance Analysis
-
-Vendor-level performance was analyzed using important business metrics such as:
-
--Total Purchase Dollars
--Total Sales Dollars
--Gross Profit
--Profit Margin
--Purchase Contribution
--Freight Cost
-Example
-```python
-vendor_performance = df.groupby('VendorName').agg({
-    'TotalPurchaseDollars': 'sum',
-    'GrossProfit': 'sum',
-    'TotalSalesDollars': 'sum'
-}).reset_index()
-
-Purchase contribution was calculated as:
-
-vendor_performance["PurchaseContribution%"] = (
-    vendor_performance['TotalPurchaseDollars']
-    / vendor_performance['TotalPurchaseDollars'].sum()
-) * 100
