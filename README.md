@@ -56,3 +56,209 @@ The main objectives of this project are to:
 | **Power BI** | Interactive dashboard and business intelligence |
 | **Excel** | Data preparation and analysis |
 | **Google Colab** | Python development environment |
+
+## 🗂️ Dataset
+
+The project uses a relational inventory and vendor database containing **millions of transactional records**.
+
+### Main Tables
+
+### `sales`
+
+Contains product-level sales transactions, including:
+
+- `InventoryId`
+- `Store`
+- `Brand`
+- `Description`
+- `Size`
+- `SalesQuantity`
+- `SalesDollars`
+- `SalesPrice`
+- `SalesDate`
+- `Volume`
+- `Classification`
+- `ExciseTax`
+- `VendorNo`
+- `VendorName`
+
+### `purchases`
+
+Contains purchasing transaction information, including:
+
+- `VendorNumber`
+- `VendorName`
+- `Brand`
+- `PurchasePrice`
+- `Quantity`
+- `Dollars`
+
+### `purchase_prices`
+
+Contains product pricing and vendor information, including:
+
+- `Brand`
+- `Description`
+- `Price`
+- `Size`
+- `Volume`
+- `Classification`
+- `PurchasePrice`
+- `VendorNumber`
+- `VendorName`
+
+### `vendor_invoice`
+
+Contains vendor invoice and freight-related information.
+
+### `begin_inventory`
+
+Contains beginning inventory information.
+
+### `end_inventory`
+
+Contains ending inventory information.
+
+---
+
+## 🔄 Project Workflow
+
+```text
+Raw SQLite Database
+        ↓
+Data Exploration
+        ↓
+SQL Data Integration
+        ↓
+Data Cleaning & Transformation
+        ↓
+Vendor & Product Aggregation
+        ↓
+Business Metric Calculation
+        ↓
+Python Exploratory Data Analysis
+        ↓
+Data Visualization
+        ↓
+Power BI Dashboard
+        ↓
+Business Insights
+
+# 🗄️ SQL Analysis
+
+SQL was used to integrate information from multiple relational tables and create a consolidated dataset for vendor and product performance analysis.
+
+The SQL analysis involved:
+
+- Joining multiple relational tables
+- Filtering invalid or irrelevant records
+- Aggregating sales and purchase transactions
+- Calculating vendor-level metrics
+- Calculating product-level metrics
+- Analyzing freight costs
+- Measuring profitability
+- Calculating supplier contribution
+
+A consolidated dataset named **`vendor_sales_summary`** was created for further analysis.
+
+### 📊 Key Metrics
+
+The analysis included:
+
+- **Total Purchase Quantity**
+- **Total Purchase Dollars**
+- **Total Sales Quantity**
+- **Total Sales Dollars**
+- **Total Freight**
+- **Gross Profit**
+- **Profit Margin**
+- **Stock Turnover**
+- **Sales-to-Purchase Ratio**
+- **Purchase Contribution**
+
+---
+
+## 🔗 Data Integration
+
+The project combines purchasing, pricing, sales, vendor, and invoice information using SQL joins and aggregations.
+
+### Example SQL Analysis
+
+```sql
+SELECT
+    p.VendorNumber,
+    p.VendorName,
+    p.Brand,
+    pp.Description,
+    p.PurchasePrice,
+    pp.Volume,
+    pp.Price AS ActualPrice,
+    SUM(p.Quantity) AS TotalPurchaseQuantity,
+    SUM(p.Dollars) AS TotalPurchaseDollars
+FROM purchases p
+JOIN purchase_prices pp
+    ON p.Brand = pp.Brand
+WHERE p.PurchasePrice > 0
+GROUP BY
+    p.VendorNumber,
+    p.VendorName,
+    p.Brand,
+    pp.Description,
+    p.PurchasePrice,
+    pp.Volume,
+    pp.Price;
+
+# 🧹 Data Cleaning & Transformation
+
+The data was cleaned and transformed before performing the final analysis.
+
+Major data preparation steps included:
+
+- Removing invalid or irrelevant records
+- Handling missing values
+- Filtering records with meaningful sales activity
+- Aggregating transactional data
+- Joining vendor, product, sales, and purchase information
+- Creating calculated business metrics
+- Preparing an analysis-ready dataset for Python and Power BI
+
+---
+
+# 🐍 Python Exploratory Data Analysis
+
+Python was used to perform exploratory data analysis and identify trends, patterns, and relationships within the dataset.
+
+The analysis focused on **vendor performance, product performance, profitability, purchasing behavior, and sales trends**.
+
+### 📌 Python Libraries
+
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+#📈 Vendor Performance Analysis
+
+Vendor-level performance was analyzed using important business metrics such as:
+
+-Total Purchase Dollars
+-Total Sales Dollars
+-Gross Profit
+-Profit Margin
+-Purchase Contribution
+-Freight Cost
+Example
+```python
+vendor_performance = df.groupby('VendorName').agg({
+    'TotalPurchaseDollars': 'sum',
+    'GrossProfit': 'sum',
+    'TotalSalesDollars': 'sum'
+}).reset_index()
+
+Purchase contribution was calculated as:
+
+vendor_performance["PurchaseContribution%"] = (
+    vendor_performance['TotalPurchaseDollars']
+    / vendor_performance['TotalPurchaseDollars'].sum()
+) * 100
