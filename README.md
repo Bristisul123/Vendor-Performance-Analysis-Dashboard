@@ -143,3 +143,21 @@ Data Visualization
 Power BI Dashboard
         ↓
 Business Insights
+
+---
+##🗄️ SQL Analysis
+
+SQL was used to integrate information from multiple relational tables and create a consolidated dataset for vendor and product performance analysis.
+
+The SQL analysis involved:
+
+-Joining multiple relational tables
+-Filtering invalid or irrelevant records
+-Aggregating sales and purchase transactions
+-Calculating vendor-level metrics
+-Calculating product-level metrics
+-Analyzing freight costs
+-Measuring profitability
+-Calculating supplier contribution
+
+A consolidated dataset named vendor_sales_summary was created for further analysis.
