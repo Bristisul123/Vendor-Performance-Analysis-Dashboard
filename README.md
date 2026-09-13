@@ -9,7 +9,22 @@ The project follows an end-to-end **Data Analytics and Business Intelligence wor
 The analysis evaluates vendor contribution, purchasing patterns, sales performance, profitability, supplier concentration, product performance, and other key business metrics.
 
 ---
+## 📊 Power BI Dashboard
 
+An interactive **Power BI dashboard** was developed to provide a comprehensive view of vendor performance, purchasing, sales, profitability, and supplier concentration.
+
+### 📸 Dashboard Preview
+
+![Vendor Performance Dashboard](Vendor%20performance%20Dashboard.png)
+
+### 📌 Dashboard KPIs
+
+- **Total Purchase**
+- **Total Sales**
+- **Gross Profit**
+- **Profit Margin**
+- **Total Freight**
+- **Vendor Contribution**
 ## 🎯 Business Objectives
 
 The main objectives of this project are to:
