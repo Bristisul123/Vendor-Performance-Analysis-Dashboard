@@ -144,7 +144,7 @@ Power BI Dashboard
         ↓
 Business Insights
 
----
+```
 ##🗄️ SQL Analysis
 
 SQL was used to integrate information from multiple relational tables and create a consolidated dataset for vendor and product performance analysis.
