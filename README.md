@@ -145,19 +145,126 @@ Power BI Dashboard
 Business Insights
 
 ```
-##🗄️ SQL Analysis
+## 🗄️ SQL Analysis
 
 SQL was used to integrate information from multiple relational tables and create a consolidated dataset for vendor and product performance analysis.
 
 The SQL analysis involved:
 
--Joining multiple relational tables
--Filtering invalid or irrelevant records
--Aggregating sales and purchase transactions
--Calculating vendor-level metrics
--Calculating product-level metrics
--Analyzing freight costs
--Measuring profitability
--Calculating supplier contribution
+- Joining multiple relational tables
+- Filtering invalid or irrelevant records
+- Aggregating sales and purchase transactions
+- Calculating vendor-level metrics
+- Calculating product-level metrics
+- Analyzing freight costs
+- Measuring profitability
+- Calculating supplier contribution
 
-A consolidated dataset named vendor_sales_summary was created for further analysis.
+### Example SQL Analysis
+
+```sql
+SELECT 
+    p.VendorNumber,
+    p.VendorName,
+    p.Brand,
+    pp.Description,
+    p.PurchasePrice,
+    pp.Volume,
+    pp.Price AS ActualPrice,
+    SUM(p.Quantity) AS TotalPurchaseQuantity,
+    SUM(p.Dollars) AS TotalPurchaseDollars
+FROM purchases p
+JOIN purchase_prices pp 
+    ON p.Brand = pp.Brand
+WHERE p.PurchasePrice > 0
+GROUP BY 
+    p.VendorNumber,
+    p.VendorName,
+    p.Brand,
+    pp.Description,
+    p.PurchasePrice,
+    pp.Volume,
+    pp.Price;
+```
+
+## 🧹 Data Cleaning & Transformation
+
+The data was cleaned and transformed before performing the final analysis.
+
+Major data preparation steps included:
+
+- Removing invalid or irrelevant records
+- Handling missing values
+- Filtering records with meaningful sales activity
+- Aggregating transactional data
+- Joining vendor, product, sales, and purchase information
+- Creating calculated business metrics
+- Preparing an analysis-ready dataset for Python and Power BI
+
+## 🐍 Python Exploratory Data Analysis
+
+Python was used to perform exploratory data analysis and identify trends, patterns, and relationships within the dataset.
+
+The analysis focused on vendor performance, product performance, profitability, purchasing behavior, and sales trends.
+
+# 📌 Python Libraries
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+```
+# 💡 Key Business Insights
+
+## 1. High Supplier Concentration
+
+The **top 10 vendors account for approximately 99.05% of total purchase value**, indicating significant purchasing dependency on a small group of suppliers.
+
+## 2. Dominant Supplier
+
+**MARTIGNETTI COMPANIES** contributes approximately **85.99% of total purchase value**, making it the most influential supplier in the dataset.
+
+## 3. Supplier Diversification Opportunity
+
+The high concentration of purchases suggests an opportunity to evaluate **supplier diversification strategies** to reduce dependency and potential supply-chain risk.
+
+## 4. Profitability-Based Product Analysis
+
+Comparing sales performance with profit margins helps identify products that may benefit from:
+
+- Promotional strategies
+- Pricing adjustments
+- Cost optimization
+- Supplier negotiation
+
+## 5. Data-Driven Vendor Management
+
+Combining **purchasing, sales, profitability, and freight metrics** provides a comprehensive approach to evaluating vendor performance rather than relying on sales or purchasing figures alone.
+
+---
+
+# 📁 Project Structure
+
+```text
+Vendor-Performance-Analysis-Dashboard/
+│
+├── README.md
+│
+├── data/
+│   ├── cleaned_inventory_data.xlsx
+│   └── inventory.db
+│
+├── notebooks/
+│   ├── cleaning_data.ipynb
+│   └── performance_analysis_eda.ipynb
+│
+├── powerbi/
+│   └── vendor_performance.pbix
+│
+└── screenshots/
+    └── dashboard_overview.png
+
+```
+## 🎯 Project Goal
+
+The primary goal of this project is to analyze vendor, purchasing, sales, and product performance data to identify key business trends, measure profitability, evaluate supplier contribution, and uncover opportunities for improving purchasing and vendor management decisions.
